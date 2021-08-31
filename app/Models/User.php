@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\Users;
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +10,9 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-protected $table ='users';
+
+    // map class User với bảng có tên là 'users' trong db
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +22,8 @@ protected $table ='users';
         'name',
         'email',
         'password',
+        'avatar',
+        'is_name',      
     ];
 
     /**
@@ -39,5 +43,10 @@ protected $table ='users';
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
+    ]; 
+    
+    public function setPasswordAttribute( $value){
+        $hashed = bcrypt($value);
+        $this->attributes['password'] = $hashed;
+    }
 }

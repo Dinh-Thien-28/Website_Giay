@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
@@ -21,15 +22,15 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker-text(30);
+        $imgPath = $this->faker->image(storage_path('app/public/uploads/products'), $width = 640, $height = 480, 'cats', false);
         return [
-            'name'=>$name,
-            'cate_id'=> rand(1,100),
-            'image'=> $this->faker-text(20),
-            'price'=> $this->faker-text(20),
-            'quantity'=> $this->faker-text(200),
-            'status'=> $this->faker-text(30),
-
+            "name" => $this->faker->name(),
+            "cate_id" => Category::all()->random()->id,
+            "image" => "uploads/products/" . $imgPath,
+            "price" => rand(1, 2000),
+            "quantity" => rand(1, 200),
+            "status" => rand(0, 1)
         ];
     }
 }
+?>
